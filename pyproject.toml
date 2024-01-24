@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "vacansies-parser"
+version = "0.1.0"
+description = "Парсер вакансий "
+authors = ["Dmitry <kde98@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
