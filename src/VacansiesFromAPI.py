@@ -5,12 +5,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-class AbstractVacancyAPI():
+class AbstractVacancyAPI():  # Абстрактный класс для наследования
     def get_vacancies(self, request):
         pass
 
 
-class HHVacancies(AbstractVacancyAPI):
+class HHVacancies(AbstractVacancyAPI):  # Класс для запроса вакансий с HH
     def get_vacancies(self, request):
         url = "https://api.hh.ru/vacancies/"
         params = {"text": request}
@@ -20,7 +20,7 @@ class HHVacancies(AbstractVacancyAPI):
         return vacancies
 
 
-class SJVacancies(AbstractVacancyAPI):
+class SJVacancies(AbstractVacancyAPI):  # Класс для запроса вакансий с SJ
     SJ_TOKEN = os.getenv("SJ_SECRET_KEY")
 
     def __init__(self, token=SJ_TOKEN):
