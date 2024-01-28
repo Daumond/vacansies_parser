@@ -1,11 +1,13 @@
 import requests
 import os
 from dotenv import load_dotenv
+from abc import ABC, abstractmethod
 
 load_dotenv()
 
 
-class AbstractVacancyAPI():  # Абстрактный класс для наследования
+class AbstractVacancyAPI(ABC):  # Абстрактный класс для наследования
+    @abstractmethod
     def get_vacancies(self, request):
         pass
 
@@ -23,12 +25,9 @@ class HHVacancies(AbstractVacancyAPI):  # Класс для запроса ва�
 class SJVacancies(AbstractVacancyAPI):  # Класс для запроса вакансий с SJ
     SJ_TOKEN = os.getenv("SJ_SECRET_KEY")
 
-    def __init__(self, token=SJ_TOKEN):
-        self.token = token
-
     def get_vacancies(self, request):
         url = "https://api.superjob.ru/2.0/vacancies"
-        headers = {"X-Api-App-Id": self.token}
+        headers = {"X-Api-App-Id": self.SJ_TOKEN}
         params = {"keyword": request}
         response = requests.get(url, headers=headers, params=params)
         data = response.json()
