@@ -17,9 +17,17 @@ class HHVacancies(AbstractVacancyAPI):  # Класс для запроса ва�
         url = "https://api.hh.ru/vacancies/"
         params = {"text": request}
         response = requests.get(url, params=params)
-        data = response.json()
-        vacancies = data.get("items")
-        return vacancies
+        if response.status_code == 200:
+            data = response.json()
+            vacancies = data.get("items")
+            return vacancies
+        elif response.status_code == 400:
+            raise ValueError("Неверные параметры запроса")
+        elif response.status_code == 404:
+            raise ValueError("Нет данных по указанному запросу")
+        else:
+            raise ValueError(f"Произошла ошибка при обращении к API: {response.status_code}")
+
 
 
 class SJVacancies(AbstractVacancyAPI):  # Класс для запроса вакансий с SJ
