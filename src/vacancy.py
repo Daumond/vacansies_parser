@@ -28,6 +28,29 @@ class Vacancy:
         return result
 
     @property
+    def title(self):
+        return self.__title
+    @property
+    def location(self):
+        return self.__location
+    @property
+    def employer(self):
+        return self.__employer
+    @property
+    def description(self):
+        return self.__description
+    @property
+    def experience(self):
+        return self.__experience
+    @property
+    def link(self):
+        return self.__link
+    @property
+    def source(self):
+        return self.__source
+
+
+    @property
     def salary_from(self) -> int:
         if isinstance(self.__salary, dict):
             return self.__salary['from']
