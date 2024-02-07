@@ -9,7 +9,7 @@ load_dotenv()
 
 class AbstractVacancyAPI(ABC):  # Абстрактный класс для наследования
     @abstractmethod
-    def get_vacancies(self, request):
+    def get_vacancies(self):
         pass
 
     @abstractmethod
@@ -18,9 +18,12 @@ class AbstractVacancyAPI(ABC):  # Абстрактный класс для на�
 
 
 class HHVacancies(AbstractVacancyAPI):  # Класс для запроса вакансий с HH
-    def get_vacancies(self, request):
+    def __init__(self, request):
+        self.request = request
+
+    def get_vacancies(self):
         url = "https://api.hh.ru/vacancies/"
-        params = {"text": request}
+        params = {"text": self.request}
         response = requests.get(url, params=params)
         if response.status_code == 200:
             data = response.json()
@@ -61,10 +64,13 @@ class HHVacancies(AbstractVacancyAPI):  # Класс для запроса ва�
 class SJVacancies(AbstractVacancyAPI):  # Класс для запроса вакансий с SJ
     SJ_TOKEN = os.getenv("SJ_SECRET_KEY")
 
-    def get_vacancies(self, request):
+    def __init__(self, request):
+        self.request = request
+
+    def get_vacancies(self):
         url = "https://api.superjob.ru/2.0/vacancies"
         headers = {"X-Api-App-Id": self.SJ_TOKEN}
-        params = {"keyword": request}
+        params = {"keyword": self.request}
         response = requests.get(url, headers=headers, params=params)
         if response.status_code == 200:
             data = response.json()
