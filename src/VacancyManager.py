@@ -4,7 +4,7 @@ from pathlib import Path
 from src.vacancy import Vacancy
 
 
-class VacancyManager(ABC):
+class VacancyManager(ABC): # Абстрактный класс для наследования
     @abstractmethod
     def add_vacancy(self, vacancy):
         pass
@@ -26,7 +26,7 @@ class VacancyManager(ABC):
         pass
 
 
-class JSONVacancyManager(VacancyManager):
+class JSONVacancyManager(VacancyManager): # Класс дря работы с json фалами
     __filepath = str(Path().resolve()) + "\\src\\json_data\\"
 
     def __init__(self, filename):

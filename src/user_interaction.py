@@ -3,6 +3,7 @@ from src.VacancyManager import JSONVacancyManager
 
 
 def filter_vacancies_by_keyword(manager):
+    '''Фильтрует вакансии по ключевому слову'''
     keyword = input("Введите ключевое слово для фильтрации: ")
     print("Ожидайте, процесс займет какое то время\n")
     filtered_vacancies = manager.get_vacancies(keyword)
@@ -14,6 +15,7 @@ def filter_vacancies_by_keyword(manager):
 
 
 def delete_vacancies_by_keyword(manager):
+    """Удаляет вакансии по ключевому слову"""
     keyword = input("Введите ключевое слово для удаления вакансий: ")
     confirm = input(f"Вы уверены, что хотите удалить все вакансии с ключевым словом '{keyword}'? (y/n): ").lower()
     if confirm == "y":
@@ -26,6 +28,7 @@ def delete_vacancies_by_keyword(manager):
 
 
 def get_top_n_vacancies_by_salary(manager):
+    """Выводит топ n вакансий по зарплате"""
     try:
         n = int(input("Введите количество вакансий для вывода: "))
         if n <= 0:
@@ -44,6 +47,7 @@ def get_top_n_vacancies_by_salary(manager):
 
 
 def main():
+    """Основное тело программы"""
     print("Добро пожаловать в программу для поиска вакансий!")
 
     while True:

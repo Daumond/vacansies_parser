@@ -17,11 +17,11 @@ class AbstractVacancyAPI(ABC):  # Абстрактный класс для на�
         pass
 
 
-class HHVacancies(AbstractVacancyAPI):
+class HHVacancies(AbstractVacancyAPI): # Класс для работы с hh
     def __init__(self, request):
         self.request = request
 
-    def get_vacancies(self):
+    def get_vacancies(self): # Получаем вакансии через api
         url = "https://api.hh.ru/vacancies/"
         params = {"text": self.request}
         response = requests.get(url, params=params)
@@ -36,7 +36,7 @@ class HHVacancies(AbstractVacancyAPI):
         else:
             raise ValueError(f"Произошла ошибка при обращении к API: {response.status_code}")
 
-    def parse_vacancies(self, raw_data):
+    def parse_vacancies(self, raw_data): # Парсим вакансии и отдаем список
         vacancies_list = []
         for item in raw_data:
             parsed_data = {}
@@ -60,13 +60,13 @@ class HHVacancies(AbstractVacancyAPI):
         return vacancies_list
 
 
-class SJVacancies(AbstractVacancyAPI):
+class SJVacancies(AbstractVacancyAPI): # Класс для работы с superjob
     SJ_TOKEN = os.getenv("SJ_SECRET_KEY")
 
     def __init__(self, request):
         self.request = request
 
-    def get_vacancies(self):
+    def get_vacancies(self): # Получаем вакансии через api
         url = "https://api.superjob.ru/2.0/vacancies"
         headers = {"X-Api-App-Id": self.SJ_TOKEN}
         params = {"keyword": self.request}
@@ -82,7 +82,7 @@ class SJVacancies(AbstractVacancyAPI):
         else:
             raise ValueError(f"Произошла ошибка при обращении к API: {response.status_code}")
 
-    def parse_vacancies(self, raw_data):
+    def parse_vacancies(self, raw_data): # Парсим вакансии и отдаем список
         vacancies_list = []
         for item in raw_data:
             parsed_data = {
