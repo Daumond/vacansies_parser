@@ -21,6 +21,10 @@ class VacancyManager(ABC):
     def load_from_file(self):
         pass
 
+    @abstractmethod
+    def delete_vacancies_by_keyword(self, keyword):
+        pass
+
 
 class JSONVacancyManager(VacancyManager):
     __filepath = str(Path().resolve()) + "\\src\\json_data\\"
@@ -67,3 +71,8 @@ class JSONVacancyManager(VacancyManager):
         vacancies_list = [Vacancy(**vacancy) for vacancy in data]
         self.vacancies.extend(vacancies_list)
         return vacancies_list
+
+    def delete_vacancies_by_keyword(self, keyword):
+        self.load_from_file()
+        self.vacancies = [vacancy for vacancy in self.vacancies if keyword.lower() not in vacancy.description.lower()]
+        self.save_to_file()
