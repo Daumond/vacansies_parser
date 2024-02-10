@@ -71,6 +71,22 @@ class Vacancy:
             salary_parts = self.__salary.split(' -> ')
             return int(float(salary_parts[1]))
 
+    def __eq__(self, other):
+
+        if isinstance(other, Vacancy):
+            return (self.salary_from == other.salary_from
+                    and self.salary_to == other.salary_to)
+        else:
+            raise TypeError('Неподдерживаемый тип операнда. Можно сравнить только объекты класса Vacancy.')
+
+    def __lt__(self, other):
+
+        if isinstance(other, Vacancy):
+            return (self.salary_from < other.salary_from
+                    and self.salary_to < other.salary_to)
+        else:
+            raise TypeError('Неподдерживаемый тип операнда. Можно сравнить только объекты класса Vacancy.')
+
     def get_salary(self) -> str:
         if isinstance(self.__salary, str):
             return self.__salary
