@@ -53,6 +53,7 @@ def main():
                     print(vacancy)
             elif action == "2":
                 keyword = input("Введите ключевое слово для фильтрации: ")
+                print("Ожидайте, процесс займет какое то время\n")
                 filtered_vacancies = manager.get_vacancies(keyword)
                 if filtered_vacancies:
                     for vacancy in filtered_vacancies:
