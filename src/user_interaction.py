@@ -2,6 +2,29 @@ from src.VacansiesFromAPI import HHVacancies, SJVacancies
 from src.VacancyManager import JSONVacancyManager
 
 
+def filter_vacancies_by_keyword(manager):
+    keyword = input("Введите ключевое слово для фильтрации: ")
+    print("Ожидайте, процесс займет какое то время\n")
+    filtered_vacancies = manager.get_vacancies(keyword)
+    if filtered_vacancies:
+        for vacancy in filtered_vacancies:
+            print(vacancy)
+    else:
+        print("Нет вакансий с указанным ключевым словом")
+
+
+def delete_vacancies_by_keyword(manager):
+    keyword = input("Введите ключевое слово для удаления вакансий: ")
+    confirm = input(f"Вы уверены, что хотите удалить все вакансии с ключевым словом '{keyword}'? (y/n): ").lower()
+    if confirm == "y":
+        manager.delete_vacancies_by_keyword(keyword)
+        print("Вакансии с ключевым словом", keyword, "были удалены.")
+    elif confirm == "n":
+        print("Удаление отменено.")
+    else:
+        print("Некорректный ввод. Удаление отменено.")
+
+
 def get_top_n_vacancies_by_salary(manager):
     try:
         n = int(input("Введите количество вакансий для вывода: "))
@@ -25,8 +48,8 @@ def main():
 
     while True:
         print("\nВыберите действие:")
-        print("1. Поиск вакансий")
-        print("2. Вывод списка вакансий")
+        print("1. Поиск и добавлений вакансий в файл")
+        print("2. Работа с файлом")
         print("3. Выход")
 
         choice = input("Введите номер действия: ")
@@ -63,7 +86,8 @@ def main():
             print("1. Вывести все вакансии")
             print("2. Фильтровать вакансии по ключевому слову в описании")
             print("3. Получить топ N вакансий по зарплате")
-            print("4. Вернуться в главное меню")
+            print("4. Удалить вакансии по ключевому слову")
+            print("5. Вернуться в главное меню")
 
             action = input("Введите номер действия: ")
 
@@ -71,17 +95,12 @@ def main():
                 for vacancy in loaded_vacancies:
                     print(vacancy)
             elif action == "2":
-                keyword = input("Введите ключевое слово для фильтрации: ")
-                print("Ожидайте, процесс займет какое то время\n")
-                filtered_vacancies = manager.get_vacancies(keyword)
-                if filtered_vacancies:
-                    for vacancy in filtered_vacancies:
-                        print(vacancy)
-                else:
-                    print("Нет вакансий с указанным ключевым словом")
+                filter_vacancies_by_keyword(manager)
             elif action == "3":
                 get_top_n_vacancies_by_salary(manager)
             elif action == "4":
+                delete_vacancies_by_keyword(manager)
+            elif action == "5":
                 continue
             else:
                 print("Неверный номер действия")
@@ -92,4 +111,3 @@ def main():
 
         else:
             print("Неверный номер действия")
-
