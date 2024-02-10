@@ -65,4 +65,5 @@ class JSONVacancyManager(VacancyManager):
 
         data = json.loads(json_data)
         vacancies_list = [Vacancy(**vacancy) for vacancy in data]
+        self.vacancies.extend(vacancies_list)
         return vacancies_list
