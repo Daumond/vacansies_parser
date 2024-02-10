@@ -1,3 +1,5 @@
-from dotenv import load_dotenv
+from src import user_interaction
 
-load_dotenv()
+
+if __name__ == '__main__':
+    user_interaction.main()
