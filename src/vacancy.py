@@ -23,7 +23,7 @@ class Vacancy:
                   f"Описание: {description}\n"
                   f"Опыт работы: {self.__experience}\n"
                   f"Ссылка на вакансию: {self.__link}\n"
-                  f"Источник: {self.__source}")
+                  f"Источник: {self.__source}\n")
 
         return result
 
