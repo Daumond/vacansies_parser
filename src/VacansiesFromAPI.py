@@ -17,7 +17,7 @@ class AbstractVacancyAPI(ABC):  # Абстрактный класс для на�
         pass
 
 
-class HHVacancies(AbstractVacancyAPI):  # Класс для запроса вакансий с HH
+class HHVacancies(AbstractVacancyAPI):
     def __init__(self, request):
         self.request = request
 
@@ -38,7 +38,6 @@ class HHVacancies(AbstractVacancyAPI):  # Класс для запроса ва�
 
     def parse_vacancies(self, raw_data):
         vacancies_list = []
-
         for item in raw_data:
             parsed_data = {}
 
@@ -56,12 +55,12 @@ class HHVacancies(AbstractVacancyAPI):  # Класс для запроса ва�
             parsed_data['source'] = "hh.ru"
 
             vacancy = Vacancy(**parsed_data)
-            print(vacancy)
+            vacancy.validate()
             vacancies_list.append(vacancy)
         return vacancies_list
 
 
-class SJVacancies(AbstractVacancyAPI):  # Класс для запроса вакансий с SJ
+class SJVacancies(AbstractVacancyAPI):
     SJ_TOKEN = os.getenv("SJ_SECRET_KEY")
 
     def __init__(self, request):
@@ -85,19 +84,19 @@ class SJVacancies(AbstractVacancyAPI):  # Класс для запроса ва�
 
     def parse_vacancies(self, raw_data):
         vacancies_list = []
-
         for item in raw_data:
-            parsed_data = {'title': item.get('profession', '...'),
-                           'location': item['town'].get('title', '...'),
-                           'link': item.get('link', '...'),
-                           'employer': item.get('firm_name', '...'),
-                           'salary': {'from': item.get('payment_from', 0), 'to': item.get('payment_to', 0),
-                                      'currency': item.get('currency', 'RUB').upper()},
-                           'description': item.get('candidat', '...'),
-                           'experience': item['experience'].get('title', '...'),
-                           'source': 'superjob.ru'}
-
+            parsed_data = {
+                'title': item.get('profession', '...'),
+                'location': item['town'].get('title', '...'),
+                'link': item.get('link', '...'),
+                'employer': item.get('firm_name', '...'),
+                'salary': {'from': item.get('payment_from', 0), 'to': item.get('payment_to', 0),
+                           'currency': item.get('currency', 'RUB').upper()},
+                'description': item.get('candidat', '...'),
+                'experience': item['experience'].get('title', '...'),
+                'source': 'superjob.ru'
+            }
             vacancy = Vacancy(**parsed_data)
-            print(vacancy)
+            vacancy.validate()
             vacancies_list.append(vacancy)
         return vacancies_list
