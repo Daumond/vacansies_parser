@@ -14,7 +14,11 @@ class VacancyManager(ABC):
         pass
 
     @abstractmethod
-    def delete_vacancy(self, vacancy):
+    def save_to_file(self):
+        pass
+
+    @abstractmethod
+    def load_from_file(self):
         pass
 
 
@@ -25,10 +29,10 @@ class JSONVacancyManager(VacancyManager):
         self.filename = filename
         self.vacancies = []
 
-    def add_vacancy(self, **vacancies_list):
-        self.vacancies.extend(vacancies_list)
+    def add_vacancy(self, vacancy_list):
+        self.vacancies.extend(vacancy_list)
 
-    def get_vacancies(self, **query):
+    def get_vacancies(self, query):
         results = []
         for vacancy in self.vacancies:
             if query in vacancy.description.lower():
@@ -38,29 +42,27 @@ class JSONVacancyManager(VacancyManager):
         results.sort(reverse=True)
         return results
 
-    def delete_vacancy(self, vacancy):
-        self.vacancies.remove(vacancy)
-
-    def save_to_file(self, vacancies_list: list):
-
-        with open(self.__filepath + self.filename, "w", encoding="utf-8") as file:
-            data = []
-            for vacancy in vacancies_list:
-                data.append({
-                    "title": vacancy.title,
-                    "location": vacancy.location,
-                    "employer": vacancy.employer,
-                    "salary": vacancy.get_salary(),
-                    "description": vacancy.description,
-                    "experience": vacancy.experience,
-                    "link": vacancy.link,
-                    "source": vacancy.source
-                })
-                json.dump(data, file, ensure_ascii=False, indent=1)
-                #file.write(data)
+    def save_to_file(self):
+        data = []
+        for vacancy in self.vacancies:
+            data.append({
+                "title": vacancy.title,
+                "location": vacancy.location,
+                "employer": vacancy.employer,
+                "salary": vacancy.get_salary(),
+                "description": vacancy.description,
+                "experience": vacancy.experience,
+                "link": vacancy.link,
+                "source": vacancy.source
+            })
+            json_data = json.dumps(data, ensure_ascii=False, indent=1)
+            with open(self.__filepath + self.filename, "w", encoding="utf-8") as file:
+                file.write(json_data)
 
     def load_from_file(self):
         with open(self.__filepath + self.filename, "r", encoding="utf-8") as file:
-            data = json.load(file)
-            vacancies_list = [Vacancy(**vacancy) for vacancy in data]
-            self.vacancies.append(vacancies_list)
+            json_data = file.read()
+
+        data = json.loads(json_data)
+        vacancies_list = [Vacancy(**vacancy) for vacancy in data]
+        return vacancies_list
