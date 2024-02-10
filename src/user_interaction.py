@@ -2,6 +2,24 @@ from src.VacansiesFromAPI import HHVacancies, SJVacancies
 from src.VacancyManager import JSONVacancyManager
 
 
+def get_top_n_vacancies_by_salary(manager):
+    try:
+        n = int(input("Введите количество вакансий для вывода: "))
+        if n <= 0:
+            print("Число должно быть положительным.")
+            return
+    except ValueError:
+        print("Введите целое положительное число.")
+        return
+
+    sorted_vacancies = sorted(manager.vacancies, key=lambda vacancy: vacancy.salary_from, reverse=True)
+    top_n_vacancies = sorted_vacancies[:n]
+
+    print(f"\nТоп-{n} вакансий по зарплате:")
+    for i, vacancy in enumerate(top_n_vacancies, start=1):
+        print(f"{i}. {vacancy.title} - {vacancy.get_salary()}")
+
+
 def main():
     print("Добро пожаловать в программу для поиска вакансий!")
 
@@ -44,7 +62,8 @@ def main():
             print("Выберите действие:")
             print("1. Вывести все вакансии")
             print("2. Фильтровать вакансии по ключевому слову в описании")
-            print("3. Вернуться в главное меню")
+            print("3. Получить топ N вакансий по зарплате")
+            print("4. Вернуться в главное меню")
 
             action = input("Введите номер действия: ")
 
@@ -61,6 +80,8 @@ def main():
                 else:
                     print("Нет вакансий с указанным ключевым словом")
             elif action == "3":
+                get_top_n_vacancies_by_salary(manager)
+            elif action == "4":
                 continue
             else:
                 print("Неверный номер действия")
