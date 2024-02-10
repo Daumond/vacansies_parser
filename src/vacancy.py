@@ -19,7 +19,7 @@ class Vacancy:
         result = (f"Вакансия: {self.__title}\n"
                   f"Город: {self.__location}\n"
                   f"Работодатель: {self.__employer}\n"
-                  f"Зарплата: {self.get_salary()} {self.__salary['currency']}\n"
+                  f"Зарплата: {self.get_salary()}\n"
                   f"Описание: {description}\n"
                   f"Опыт работы: {self.__experience}\n"
                   f"Ссылка на вакансию: {self.__link}\n"
@@ -72,13 +72,6 @@ class Vacancy:
             return int(float(salary_parts[1]))
 
     def get_salary(self) -> str:
-        if self.__salary is None:
-            self.__salary = {'from': 0, 'to': 0, 'currency': 'RUB'}
-        elif self.__salary['from'] is None:
-            self.__salary['from'] = 0
-        elif self.__salary['to'] is None:
-            self.__salary['to'] = 0
-
         if isinstance(self.__salary, str):
             return self.__salary
         else:
@@ -97,3 +90,30 @@ class Vacancy:
             else:
                 salary_total = '0 -> 0'
                 return salary_total
+
+    def validate(self):
+
+        if self.__salary is None:
+            self.__salary = {'from': 0, 'to': 0, 'currency': 'RUB'}
+        elif self.__salary['from'] is None:
+            self.__salary['from'] = 0
+        elif self.__salary['to'] is None:
+            self.__salary['to'] = 0
+
+        if self.__title is None or not isinstance(self.__title, str):
+            self.__title = 'empty...'
+
+        if self.__link is None or not isinstance(self.__link, str):
+            self.__link = 'empty...'
+
+        if self.__location is None or not isinstance(self.__location, str):
+            self.__location = 'empty...'
+
+        if self.__employer is None or not isinstance(self.__employer, str):
+            self.__employer = 'empty...'
+
+        if self.__description is None or not isinstance(self.__description, str):
+            self.__description = 'empty...'
+
+        if self.__experience is None or not isinstance(self.__experience, str):
+            self.__experience = 'empty...'
