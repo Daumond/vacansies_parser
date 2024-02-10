@@ -23,7 +23,7 @@ class VacancyManager(ABC):
 
 
 class JSONVacancyManager(VacancyManager):
-    __filepath = str(Path().resolve()) + "\\json_data\\"
+    __filepath = str(Path().resolve()) + "\\src\\json_data\\"
 
     def __init__(self, filename):
         self.filename = filename

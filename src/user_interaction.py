@@ -17,7 +17,7 @@ def get_top_n_vacancies_by_salary(manager):
 
     print(f"\nТоп-{n} вакансий по зарплате:")
     for i, vacancy in enumerate(top_n_vacancies, start=1):
-        print(f"{i}. {vacancy.title} - {vacancy.get_salary()}")
+        print(f"{i}. {vacancy.title} - {vacancy.get_salary()} - {vacancy.link}")
 
 
 def main():
@@ -93,5 +93,3 @@ def main():
         else:
             print("Неверный номер действия")
 
-
-main()
